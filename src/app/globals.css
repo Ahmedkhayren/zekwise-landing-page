@@ -32,3 +32,7 @@ select,
 textarea {
   font: inherit;
 }
+
+section {
+  scroll-margin-top: 80px;
+}

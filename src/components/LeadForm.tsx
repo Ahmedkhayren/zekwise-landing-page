@@ -24,10 +24,17 @@ type Lead = {
 
 export function LeadForm() {
   const [successMessage, setSuccessMessage] = useState("");
+  const [formError, setFormError] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    if (!form.checkValidity()) {
+      setFormError("Please complete the required fields before submitting your request.");
+      form.reportValidity();
+      return;
+    }
+    const formData = new FormData(form);
     const lead: Lead = {
       fullName: String(formData.get("fullName") ?? ""),
       businessEmail: String(formData.get("businessEmail") ?? ""),
@@ -39,33 +46,37 @@ export function LeadForm() {
       submittedAt: new Date().toISOString(),
     };
 
+    setFormError("");
+    setSuccessMessage("");
     const storedLeads = localStorage.getItem("zekwise_leads");
-    const leads: Lead[] = storedLeads ? (JSON.parse(storedLeads) as Lead[]) : [];
-    const updatedLeads = [...leads, lead];
+    let leads: Lead[] = [];
+    try {
+      leads = storedLeads ? (JSON.parse(storedLeads) as Lead[]) : [];
+    } catch {
+      leads = [];
+    }
 
-    localStorage.setItem("zekwise_leads", JSON.stringify(updatedLeads));
-    console.log("Zekwise early access lead:", lead);
-    setSuccessMessage("Thanks. We received your request and will contact you soon.");
-    event.currentTarget.reset();
+    localStorage.setItem("zekwise_leads", JSON.stringify([...leads, lead]));
+    setSuccessMessage("Demo request received");
+    form.reset();
   }
 
   return (
     <section id="contact" className="bg-slate-50 px-5 py-16 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-9 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
+      <div className="mx-auto grid max-w-7xl items-start gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="lg:sticky lg:top-24">
           <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-emerald-700">Early Access</p>
           <h2 className="mt-3 text-3xl font-extrabold text-slate-950 md:text-4xl">Request early access</h2>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
-            Tell us about your document and compliance workflow. We will use requests to shape the
-            first MVP cohorts and demo schedule.
+          <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
+            This is a demo interaction. Submitted details are saved in this browser only and are not sent to a server.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-lg border border-slate-200 bg-white p-6 shadow-xl shadow-slate-100">
+        <form noValidate onSubmit={handleSubmit} className="rounded-xl border border-slate-200 bg-white p-5 shadow-xl shadow-slate-100 md:p-6">
           <div className="grid gap-5 md:grid-cols-2">
-            <Field label="Full name" name="fullName" placeholder="Amina Yusuf" required />
-            <Field label="Business email" name="businessEmail" type="email" placeholder="amina@company.com" required />
-            <Field label="Company name" name="companyName" placeholder="ABC Consultants" required />
+            <Field label="Full name" name="fullName" placeholder="Layla Al Mansoori" required />
+            <Field label="Business email" name="businessEmail" type="email" placeholder="layla@horizon.ae" required />
+            <Field label="Company name" name="companyName" placeholder="Horizon Advisory" required />
             <label className="grid gap-2 text-sm font-bold text-slate-800">
               Business type
               <select
@@ -84,8 +95,23 @@ export function LeadForm() {
                 ))}
               </select>
             </label>
-            <Field label="Country" name="country" placeholder="Somalia" required />
-            <Field label="WhatsApp number optional" name="whatsappNumber" placeholder="+252..." />
+            <label className="grid gap-2 text-sm font-bold text-slate-800">
+              Country
+              <select name="country" required defaultValue="" className="h-12 rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
+                <option value="" disabled>Select country</option>
+                <option value="Afghanistan">Afghanistan</option>
+                <option value="Albania">Albania</option>
+                <option value="Australia">Australia</option>
+                <option value="Canada">Canada</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Somalia">Somalia</option>
+                <option value="United Arab Emirates">United Arab Emirates</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <Field label="WhatsApp number (optional)" name="whatsappNumber" placeholder="+971 50 123 4567" />
           </div>
 
           <label className="mt-5 grid gap-2 text-sm font-bold text-slate-800">
@@ -106,8 +132,14 @@ export function LeadForm() {
           </button>
 
           {successMessage ? (
-            <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-800">
-              {successMessage}
+            <div role="status" className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+              <p className="font-extrabold">{successMessage}</p>
+              <p className="mt-1 leading-5">Saved locally in this browser for this prototype.</p>
+            </div>
+          ) : null}
+          {formError ? (
+            <p role="alert" className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-800">
+              {formError}
             </p>
           ) : null}
         </form>

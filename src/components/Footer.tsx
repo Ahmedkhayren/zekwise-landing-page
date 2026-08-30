@@ -3,7 +3,7 @@ import { ShieldCheck } from "lucide-react";
 const footerLinks = [
   { label: "Features", href: "#features" },
   { label: "Business Types", href: "#business-types" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Early Access", href: "#pricing" },
   { label: "Security", href: "#security" },
   { label: "Contact", href: "#contact" },
 ];

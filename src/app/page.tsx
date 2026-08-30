@@ -7,6 +7,7 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { LeadForm } from "@/components/LeadForm";
 import { PricingSection } from "@/components/PricingSection";
 import { ProblemSolution } from "@/components/ProblemSolution";
+import { ProductDetail } from "@/components/ProductDetail";
 import { SecuritySection } from "@/components/SecuritySection";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <ProblemSolution />
       <BusinessTypes />
       <Features />
+      <ProductDetail />
       <HowItWorks />
       <SecuritySection />
       <PricingSection />
