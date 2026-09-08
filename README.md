@@ -34,51 +34,65 @@ The project demonstrates my ability to turn a product concept into a clean, prod
 Clone the repository:
 
 ```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
-cd <YOUR-REPOSITORY-FOLDER>
+git clone https://github.com/Ahmedkhayren/zekwise-landing-page.git
+cd zekwise-landing-page
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
 Start the development server:
 
+```bash
 npm run dev
+```
 
 Open:
 
+```text
 http://localhost:3000
-Production Build
+```
+
+## Production Build
 
 Create an optimized production build:
 
+```bash
 npm run build
+```
 
 The project has been tested with a successful production build before deployment.
 
-Deployment
+## Deployment
 
 The application is deployed with Vercel.
 
-Live Site:
+**Live Site:**  
 https://zekwise-landing-page.vercel.app/
 
-Project Purpose
+## Project Purpose
 
 Zekwise is a portfolio project created to demonstrate:
 
-Frontend development with Next.js and React
-Responsive web design
-SaaS landing-page development
-Component-based UI development
-Production deployment workflow
-Git and GitHub project management
-Author
+- Frontend development with Next.js and React
+- Responsive web design
+- SaaS landing-page development
+- Component-based UI development
+- Production deployment workflow
+- Git and GitHub project management
 
-Ahmed Yasin
+## Author
+
+**Ahmed Yasin**
 
 Full-Stack Web Developer focused on Next.js, React, TypeScript, SaaS applications, and modern responsive websites.
 
-Upwork:
+**Upwork:**  
 https://www.upwork.com/freelancers/~01200b5066e1768082
-```
+
+## License
+
+This project is intended for portfolio and demonstration purposes.
